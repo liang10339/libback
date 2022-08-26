@@ -6,7 +6,19 @@ require("events").EventEmitter.prototype._maxListeners = 100
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(cors())
+// app.use(cors())
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested, Content-Type, Accept Authorization"
+  )
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE")
+    return res.status(200).json({})
+  }
+  next()
+})
 
 app.get("/xinbeilib", async (req, res) => {
   const bookname = Object.keys(req.query)
@@ -75,7 +87,6 @@ app.get("/taipeilib", async (req, res) => {
     res.json(title)
   }
 })
-
 app.get("/hyxinbei", async (req, res) => {
   const bookname = Object.keys(req.query)
   const book = encodeURI(bookname)
@@ -100,7 +111,6 @@ app.get("/hyxinbei", async (req, res) => {
   res.json(title.slice(0, 8))
   await browser.close()
 })
-
 app.get("/hytaipei", async (req, res) => {
   const bookname = Object.keys(req.query)
   const book = encodeURI(bookname)
@@ -125,7 +135,6 @@ app.get("/hytaipei", async (req, res) => {
   res.json(title.slice(0, 8))
   await browser.close()
 })
-
 app.get("/udnxinbei", async (req, res) => {
   const bookname = Object.keys(req.query)
   const book = encodeURI(bookname)
@@ -153,7 +162,6 @@ app.get("/udnxinbei", async (req, res) => {
   res.json(title.slice(0, 8))
   await browser.close()
 })
-
 app.get("/udntaipei", async (req, res) => {
   const bookname = Object.keys(req.query)
   const book = encodeURI(bookname)
