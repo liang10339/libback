@@ -6,19 +6,7 @@ require("events").EventEmitter.prototype._maxListeners = 100
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-// app.use(cors())
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested, Content-Type, Accept Authorization"
-  )
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE")
-    return res.status(200).json({})
-  }
-  next()
-})
+app.use(cors())
 
 app.get("/xinbeilib", async (req, res) => {
   const bookname = Object.keys(req.query)
