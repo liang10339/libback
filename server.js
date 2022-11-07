@@ -87,7 +87,10 @@ app.get("/taipeilib", async (req, res) => {
   const browser = await puppeteer.launch({
     headless: headless,
     devtools: true,
-    args: ["--disable-web-security"],
+    args: [
+      "--disable-web-security",
+      "--disable-features=BlockInsecurePrivateNetworkRequests",
+    ],
   })
   const page = await browser.newPage()
   await page.setBypassCSP(true)
