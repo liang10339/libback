@@ -101,7 +101,6 @@ app.get("/taipeilib", async (req, res) => {
   //   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
   // )
   await page.goto(taipei)
-  await browser.close()
   // const _url = await page.$eval("iframe", (el) => el.src)
   // if (_url.includes("booksearch.do")) {
   //   await page.goto(_url)
@@ -172,6 +171,7 @@ app.get("/taipeilib", async (req, res) => {
   title.unshift(taipei)
   title.unshift("臺北市立圖書館")
   res.json(title)
+  await browser.close()
 })
 
 app.get("/hyxinbei", async (req, res) => {
