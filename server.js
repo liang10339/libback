@@ -100,7 +100,7 @@ app.get("/taipeilib", async (req, res) => {
   //   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
   // )
   await page.goto(taipei)
-  await page.setBypassCSP(true)
+  // await page.setBypassCSP(true)
   // const _url = await page.$eval("iframe", (el) => el.src)
   // if (_url.includes("booksearch.do")) {
   //   await page.goto(_url)
@@ -124,46 +124,46 @@ app.get("/taipeilib", async (req, res) => {
   //   visible: true,
   // })
 
-  const waitTillHTMLRendered = async (page, timeout = 30000) => {
-    const checkDurationMsecs = 1000
-    const maxChecks = timeout / checkDurationMsecs
-    let lastHTMLSize = 0
-    let checkCounts = 1
-    let countStableSizeIterations = 0
-    const minStableSizeIterations = 3
+  // const waitTillHTMLRendered = async (page, timeout = 30000) => {
+  //   const checkDurationMsecs = 1000
+  //   const maxChecks = timeout / checkDurationMsecs
+  //   let lastHTMLSize = 0
+  //   let checkCounts = 1
+  //   let countStableSizeIterations = 0
+  //   const minStableSizeIterations = 3
 
-    while (checkCounts++ <= maxChecks) {
-      let html = await page.content()
-      let currentHTMLSize = html.length
+  //   while (checkCounts++ <= maxChecks) {
+  //     let html = await page.content()
+  //     let currentHTMLSize = html.length
 
-      let bodyHTMLSize = await page.evaluate(
-        () => document.body.innerHTML.length
-      )
+  //     let bodyHTMLSize = await page.evaluate(
+  //       () => document.body.innerHTML.length
+  //     )
 
-      // console.log(
-      //   "last: ",
-      //   lastHTMLSize,
-      //   " <> curr: ",
-      //   currentHTMLSize,
-      //   " body html size: ",
-      //   bodyHTMLSize
-      // )
+  //     // console.log(
+  //     //   "last: ",
+  //     //   lastHTMLSize,
+  //     //   " <> curr: ",
+  //     //   currentHTMLSize,
+  //     //   " body html size: ",
+  //     //   bodyHTMLSize
+  //     // )
 
-      if (lastHTMLSize != 0 && currentHTMLSize == lastHTMLSize)
-        countStableSizeIterations++
-      else countStableSizeIterations = 0 //reset the counter
+  //     if (lastHTMLSize != 0 && currentHTMLSize == lastHTMLSize)
+  //       countStableSizeIterations++
+  //     else countStableSizeIterations = 0 //reset the counter
 
-      if (countStableSizeIterations >= minStableSizeIterations) {
-        // console.log("Page rendered fully..")
-        break
-      }
+  //     if (countStableSizeIterations >= minStableSizeIterations) {
+  //       // console.log("Page rendered fully..")
+  //       break
+  //     }
 
-      lastHTMLSize = currentHTMLSize
-      await page.waitForTimeout(checkDurationMsecs)
-    }
-  }
+  //     lastHTMLSize = currentHTMLSize
+  //     await page.waitForTimeout(checkDurationMsecs)
+  //   }
+  // }
 
-  await waitTillHTMLRendered(page)
+  // await waitTillHTMLRendered(page)
 
   const title = await page.$$eval("div.bookdata h2", (els) => {
     return els.map((el) => el.textContent)
