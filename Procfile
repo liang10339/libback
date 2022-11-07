@@ -1,1 +1,1 @@
-web: node server.js
+web: node server.js --host 0.0.0.0 --port 8080
