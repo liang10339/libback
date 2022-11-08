@@ -81,15 +81,19 @@ app.get("/taipeilib", async (req, res) => {
   let bookname = Object.keys(req.query)
   const puppeteer = require("puppeteer")
   const book = encodeURI(bookname)
-  // const taipei = `https://book.tpml.edu.tw/webpac/bookSearchList.do?search_input=${book}&search_field=FullText#search_input=${book}&search_field=FullText`
   const taipei = `https://book.tpml.edu.tw/search?searchInput=${book}&searchField=FullText`
-  // console.log(taipei)
   const browser = await puppeteer.launch({
-    headless: headless,
-    devtools: true,
     args: [
       "--disable-web-security",
       "--disable-features=BlockInsecurePrivateNetworkRequests",
+      "–disable-gpu",
+      "–disable-dev-shm-usage",
+      "–disable-setuid-sandbox",
+      "–no-first-run",
+      "–no-sandbox",
+      "–no-zygote",
+      "–single-process",
+      "--disable-features=site-per-process",
     ],
   })
   const page = await browser.newPage()
@@ -99,8 +103,8 @@ app.get("/taipeilib", async (req, res) => {
   // await page.setUserAgent(
   //   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
   // )
+  await page.setBypassCSP(true)
   await page.goto(taipei)
-  // await page.setBypassCSP(true)
   // const _url = await page.$eval("iframe", (el) => el.src)
   // if (_url.includes("booksearch.do")) {
   //   await page.goto(_url)
