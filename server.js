@@ -86,14 +86,14 @@ app.get("/taipeilib", async (req, res) => {
     args: [
       "--disable-web-security",
       "--disable-features=BlockInsecurePrivateNetworkRequests",
-      "–disable-gpu",
-      "–disable-dev-shm-usage",
-      "–disable-setuid-sandbox",
-      "–no-first-run",
-      "–no-sandbox",
-      "–no-zygote",
-      "–single-process",
       "--disable-features=site-per-process",
+      "-disable-gpu",
+      "-disable-dev-shm-usage",
+      "-disable-setuid-sandbox",
+      "-no-first-run",
+      "-no-sandbox",
+      "-no-zygote",
+      "-single-process",
     ],
   })
   const page = await browser.newPage()
