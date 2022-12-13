@@ -1,8 +1,6 @@
 const express = require("express")
 const app = express()
 const port = process.env.PORT || 4000
-console.log(process.env.PORT)
-// const port = 8080
 const cors = require("cors")
 require("events").EventEmitter.prototype._maxListeners = 100
 app.use(express.urlencoded({ extended: true }))
@@ -44,39 +42,6 @@ app.get("/xinbeilib", async (req, res) => {
   )
 })
 
-// app.get("/taipeilib", async (req, res) => {
-//   const bookname = Object.keys(req.query)
-//   const request = require("request")
-//   const cheerio = require("cheerio")
-//   const book = encodeURI(bookname)
-//   const taipei = `https://book.tpml.edu.tw/search?searchInput=${book}&searchField=FullText`
-
-//   request(
-//     {
-//       url: taipei,
-//       method: "GET",
-//       timeout: 10000,
-//     },
-//     (error, response, body) => {
-//       if (error || !body) {
-//         console.log("connect to taipei lib error")
-//         return
-//       }
-//       let title = []
-//       const $ = cheerio.load(body)
-//       console.log($("div").contents().text())
-//       const list = $(".bookdata")
-//       for (let i = 0; i < list.length; i++) {
-//         title.push(list.eq(i).find("h2").text())
-//       }
-//       console.log(title)
-//       title.unshift(taipei)
-//       title.unshift("臺北市立圖書館")
-//       res.json(title)
-//     }
-//   )
-// })
-
 app.get("/taipeilib", async (req, res) => {
   let bookname = Object.keys(req.query)
   const puppeteer = require("puppeteer")
@@ -94,6 +59,7 @@ app.get("/taipeilib", async (req, res) => {
       "-no-sandbox",
       "-no-zygote",
       "-single-process",
+      "--allow-running-insecure-content",
     ],
   })
   const page = await browser.newPage()
